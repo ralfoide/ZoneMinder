@@ -186,6 +186,8 @@ if ( !$filter_parm )
     sleep( START_DELAY );
 }
 
+Info( "Filter delay ".START_DELAY." for dir ".EVENT_PATH."\n" );
+
 my $filters;
 my $last_action = 0;
 
@@ -197,6 +199,8 @@ while( 1 )
         $last_action = time();
         $filters = getFilters( $filter_parm );
     }
+
+    Info( "filters length = " . scalar(@$filters) ."\n" );
 
     foreach my $filter ( @$filters )
     {
@@ -230,6 +234,7 @@ sub getDiskBlocks
     {
         $space = $1;
     }
+    Debug( "getDiskBlocks $df -- space $space\n" );
     return( $space );
 }
 
@@ -558,6 +563,7 @@ sub checkFilter
         $sql =~ s/zmSystemLoad/$load/g;
     }
 
+	Debug( "Filter SQL: $sql \n"); # RM
     my $sth = $dbh->prepare_cached( $sql ) or Fatal( "Can't prepare '$sql': ".$dbh->errstr() );
     my $res = $sth->execute();
     if ( !$res )

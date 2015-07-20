@@ -894,7 +894,8 @@ function canStreamIframe()
 function canStreamNative()
 {
    // Old versions of Chrome can display the stream, but then it blocks everything else (Chrome bug 5876)
-   return( ZM_WEB_CAN_STREAM == "yes" || ( ZM_WEB_CAN_STREAM == "auto" && (!isInternetExplorer() && !isOldChrome()) ) );
+	return true;
+   // RM 20150628 return( ZM_WEB_CAN_STREAM == "yes" || ( ZM_WEB_CAN_STREAM == "auto" && (!isInternetExplorer() && !isOldChrome()) ) );
 }
 
 function canStreamApplet()

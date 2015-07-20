@@ -41,14 +41,22 @@ switch ( $_REQUEST['command'] )
         $msg = pack( "lcN", MSG_CMD, $_REQUEST['command'], $_REQUEST['offset'] );
         break;
     default :
+	Debug( "Stream command ".$_REQUEST['command'] ); // RM 20150628
         $msg = pack( "lc", MSG_CMD, $_REQUEST['command'] );
         break;
 }
 
 $remSockFile = ZM_PATH_SOCKS.'/zms-'.sprintf("%06d",$_REQUEST['connkey']).'s.sock';
-$max_socket_tries = 10;
-while ( !file_exists($remSockFile) && $max_socket_tries-- ) //sometimes we are too fast for our own good, if it hasn't been setup yet give it a second.
+$max_socket_tries = 20;  // RM 20150627 10=>20
+while ( !file_exists($remSockFile) && $max_socket_tries-- ) {
+	//sometimes we are too fast for our own good, if it hasn't been setup yet give it a second.
     sleep(1);
+}
+if ( !file_exists($remSockFile) ) {
+	// RM 20150627
+    ajaxError( "socket_sendto( $remSockFile ) failed: file not exist ".socket_last_error() );
+}
+
 
 if ( !@socket_sendto( $socket, $msg, strlen($msg), 0, $remSockFile ) )
 {

@@ -203,6 +203,11 @@ if ( $overwrite || !-s $video_file )
         $frame_rate = $fps;
     }
 
+	# RM fix ffmpeg framerate. Sometimes becomes 0, which breaks ffmpeg.
+	if ( $frame_rate <= 0.0 ) {
+		$frame_rate = 10;
+	}
+
     my $width = $event->{MonitorWidth};
     my $height = $event->{MonitorHeight};
     my $video_size = " ${width}x${height}";

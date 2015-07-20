@@ -54,7 +54,9 @@ else
 {
     $protocol = 'http';
 }
-define( "ZM_BASE_URL", $protocol.'://'.$_SERVER['HTTP_HOST'] );
+
+// RM-- define( "ZM_BASE_URL", $protocol.'://'.$_SERVER['HTTP_HOST'] );
+define( "ZM_BASE_URL", '' );
 
 if ( isset($_GET['skin']) )
     $skin = $_GET['skin'];
